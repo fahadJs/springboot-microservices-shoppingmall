@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
                 .toList();
 
 
-//        Call Inventory Here by WebClient Bean.
+//        Call Inventory Service Here by WebClient Bean.
         InventoryResponse[] inventoryResponseArray = webClient.get()
                 .uri("http://localhost:8082/api/inventory",
                         uriBuilder -> uriBuilder.queryParam("skuCode",skuCodes).build())
@@ -51,7 +51,6 @@ public class OrderServiceImpl implements OrderService {
                 .bodyToMono(InventoryResponse[].class)
                 .block();
 
-        assert inventoryResponseArray != null;
         boolean allProductsInStock = Arrays.stream(inventoryResponseArray)
                 .allMatch(InventoryResponse::isInStock);
 
